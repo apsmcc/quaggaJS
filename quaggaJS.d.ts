@@ -99,7 +99,8 @@ interface QuaggaJSResultObject_CodeResult {
         start: number;
         end: number;
     };
-    direction: number;
+	direction: number;
+	format: string;
 }
 
 interface QuaggaJSConfigObject {
