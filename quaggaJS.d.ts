@@ -5,52 +5,73 @@
 declare var Quagga: QuaggaJSStatic;
 
 interface QuaggaJSStatic {
-    /**
-     * This method initializes the library for a given configuration config (see below) and invokes the callback
-     * when Quagga is ready to start. The initialization process also requests for camera access if real-time
-     * detection is configured.
-     */
-    init(config: QuaggaJSConfigObject, callback?: () => void): void;
-    /**
-     * When the library is initialized, the start() method starts the video-stream and begins locating and decoding
-     * the images.
-     */
-    start(): void;
-    /**
-     * If the decoder is currently running, after calling stop() the decoder does not process any more images. 
-     * Additionally, if a camera-stream was requested upon initialization, this operation also disconnects the 
-     * camera.
-     */
-    stop(): void;
-    
-    /**
-     * Only declared in source....
-     */
-    pause(): void;
+	/**
+	 * This method initializes the library for a given configuration config (see below) and invokes the callback
+	 * when Quagga is ready to start. The initialization process also requests for camera access if real-time
+	 * detection is configured.
+	 */
+	init(config: QuaggaJSConfigObject, callback?: () => void): void;
+	/**
+	 * When the library is initialized, the start() method starts the video-stream and begins locating and decoding
+	 * the images.
+	 */
+	start(): void;
+	/**
+	 * If the decoder is currently running, after calling stop() the decoder does not process any more images. 
+	 * Additionally, if a camera-stream was requested upon initialization, this operation also disconnects the 
+	 * camera.
+	 */
+	stop(): void;
 
-    /**
-     * This method registers a callback(data) function that is called for each frame after the processing is done. 
-     * The data object contains detailed information about the success/failure of the operation. The output varies, 
-     * depending whether the detection and/or decoding were successful or not.
-     */
-    onProcessed(callback: QuaggaJSResultCallbackFunction): void;
-    /**
-     * Registers a callback(data) function which is triggered whenever a barcode- pattern has been located and 
-     * decoded successfully. The passed data object contains information about the decoding process including the 
-     * detected code which can be obtained by calling data.codeResult.code.
-     */
-    onDetected(callback: QuaggaJSResultCallbackFunction): void;
+	/**
+	 * Only declared in source....
+	 */
+	pause(): void;
 
-    /**
-     * Only declared in source....
-     */
-    setReaders(readers: any): void;
+	/**
+	 * This method registers a callback(data) function that is called for each frame after the processing is done. 
+	 * The data object contains detailed information about the success/failure of the operation. The output varies, 
+	 * depending whether the detection and/or decoding were successful or not.
+	 */
+	onProcessed(callback: QuaggaJSResultCallbackFunction): void;
+	/**
+	 * Registers a callback(data) function which is triggered whenever a barcode- pattern has been located and 
+	 * decoded successfully. The passed data object contains information about the decoding process including the 
+	 * detected code which can be obtained by calling data.codeResult.code.
+	 */
+	onDetected(callback: QuaggaJSResultCallbackFunction): void;
 
-    /**
-     * In contrast to the calls described above, this method does not rely on getUserMedia and operates on a single
-     * image instead. The provided callback is the same as in onDetected and contains the result data object.
-     */
-    decodeSingle(config: QuaggaJSConfigObject, resultCallback: QuaggaJSResultCallbackFunction): void;
+	/**
+	 * Only declared in source....
+	 */
+	setReaders(readers: any): void;
+
+	/**
+	 * In contrast to the calls described above, this method does not rely on getUserMedia and operates on a single
+	 * image instead. The provided callback is the same as in onDetected and contains the result data object.
+	 */
+	decodeSingle(config: QuaggaJSConfigObject, resultCallback: QuaggaJSResultCallbackFunction): void;
+	/**
+	* I have not figured ImageDebug out fully yet
+	*/
+	ImageDebug: {
+		drawPath: QuaggaJSDebugDrawPath;
+		drawRect: QuaggaJSDebugDrawRect;
+	};
+	/**
+	* an object Quagga uses for drawing and processing, useful for calling code when debugging
+	*/
+	canvas: {
+		ctx: {
+			image: CanvasRenderingContext2D;
+			overlay: CanvasRenderingContext2D
+		};
+		dom: {
+			image: HTMLCanvasElement;
+			overlay: HTMLCanvasElement
+		}
+	}; 
+
 }
 
 /**
@@ -59,6 +80,16 @@ interface QuaggaJSStatic {
 interface QuaggaJSResultCallbackFunction {
     (data: QuaggaJSResultObject): void;
 }
+
+/**
+* Called to draw debugging path
+*/
+declare function QuaggaJSDebugDrawPath ( path: any, def: any, ctx: CanvasRenderingContext2D, style: any )
+/**
+* Called to draw debugging Rectangle
+*/
+declare function QuaggaJSDebugDrawRect ( pos: any, size: any, ctx: CanvasRenderingContext2D, style: any )
+
 
 /**
  * The callbacks passed into onProcessed, onDetected and decodeSingle receive a data object upon execution. 
