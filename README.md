@@ -131,7 +131,8 @@ which can be obtained by calling `data.codeResult.code`.
 
 In contrast to the calls described above, this method does not rely on
 `getUserMedia` and operates on a single image instead. The provided callback
-is the same as in `onDetected` and contains the result `data` object.
+is the same as in `onProcessed` (it is called whether a barcode-pattern has been 
+located and decoded successfully or not) and contains the result `data` object.
 
 ## <a name="resultobject">The result object</a>
 
@@ -171,7 +172,8 @@ empty.
       "start": 328,
       "end": 350
     },
-    "direction": -1
+    "direction": -1,
+	"format": "code_128"
   },
   "line": [{
     "x": 25.97278706156836,
